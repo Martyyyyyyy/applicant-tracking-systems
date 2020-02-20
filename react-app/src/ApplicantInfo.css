@@ -1,0 +1,85 @@
+.editBtn{
+	float: right;
+}
+
+.btnFont{
+	color: #003333;
+	font-size: 0.8em;
+	border-radius: 2px;
+	margin: 5px;
+}
+.formPopup {
+  position: fixed;
+  border: 1px solid #006666;
+  box-shadow: 5px 10px 18px #006666;
+  width:50%;
+  font-family: Arial;
+  border-radius: 5px;
+ }
+ .formContainer {
+  background-color: #F5F5F5;
+  margin: 0px;
+}
+.editBar{
+	background-color: #006666;
+	font-size: 1em;
+	font-weight: bold; 
+	color: #eeeeec;
+	padding: 10px;
+}
+.editDivEl{
+	 overflow-y: scroll;
+	 height: 400px;
+	 margin-left: 10px;
+}
+.btnDiv{
+	 background-color: #006666;
+}
+.btnClose{
+	float: right;
+}
+.editP{
+	border-bottom: 0.5px solid #006666;
+	color: #006666;
+}
+.divElInf{
+	border-top-style: inset;
+	border-top-color: #eeeeec;
+	border-top-width: 0.5px;
+
+}
+.divElInf:hover{
+	background-color:  #e7e7e4;
+}
+
+.textCss2Inf{
+	color: #008b8b;
+	font-size: 1em;
+	font-weight: bold;
+}
+
+
+.textCss3Inf{
+	font-size: 0.9em;
+	margin: 0px;
+}
+
+.textCss1Inf{
+	color: #888a85;
+	font-size: 0.875em;
+}
+
+.applImgInf{
+	width: auto;
+	height: 80px;
+	border-radius: 50%;
+}
+.imgDivInf{
+	display: inline-block;
+	float: left;
+	margin: 10px 10px 0px 0px;
+}
+.infoDivInf{
+	display: inline-block;
+
+}
