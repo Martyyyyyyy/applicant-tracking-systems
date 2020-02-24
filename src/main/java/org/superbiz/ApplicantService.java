@@ -1,8 +1,8 @@
 package org.superbiz;
 
-import jdk.nashorn.internal.objects.annotations.Getter;
-
+import java.sql.*;
 import java.util.ArrayList;
+import java.util.Properties;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -13,33 +13,33 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 @Path("/applicants")
 public class ApplicantService {
 
-    private ArrayList<Applicant> applicants = new ArrayList<Applicant>();
-
-    public ApplicantService(){
-        Applicant appl1 = new Applicant(1,"Almir","Omerovic","Software Developer at DCCS, Tuzla","Moluhe,7500 Tuzla");
-        Applicant appl2 = new Applicant(2,"Ina","Golos","Software Developer at CapeAnn Enterprises, Tuzla", "Stupine, 7500 Tuzla");
-        appl1.setApplicantPhotoURL("https://scontent.ftzl2-1.fna.fbcdn.net/v/t1.0-9/s960x960/36717461_2267391713287965_8766276259727540224_o.jpg?_nc_cat=104&_nc_ohc=7bOzcR-Zuf8AX-Myd80&_nc_ht=scontent.ftzl2-1.fna&oh=65a8ffe1b34fafabca4f6adf06708cad&oe=5EFE6CCE");
-        appl2.setApplicantPhotoURL("https://scontent.ftzl2-1.fna.fbcdn.net/v/t1.0-9/28577288_775576645961592_616938734488758731_n.jpg?_nc_cat=106&_nc_ohc=fGY79cW0O9UAX-qT3g9&_nc_ht=scontent.ftzl2-1.fna&oh=6870be142173f0da87f57cead87e0a0d&oe=5EBF1C92");
-        ArrayList<Applicant> applList = new ArrayList<Applicant>();
-        applList.add(appl1);
-        applList.add(appl2);
-        this.applicants = applList;
-    }
+    private final String url = "jdbc:postgresql://localhost/postgres";
+    private final String user = "martina";
+    private final String password = "martina";
 
     @GET
     @Produces({APPLICATION_JSON})
-    public ArrayList<Applicant> getApplicants(){
+    public ArrayList<Applicant> getAllApplicants() throws SQLException {
+        ArrayList<Applicant> applicants = new ArrayList<Applicant>();
+        Connection conn = null;
+        try {
+            Class.forName("org.postgresql.Driver");
+            conn = DriverManager.getConnection(url, user, password);
+            System.out.println("Connected to the PostgreSQL server successfuly.");
+            Statement statement = conn.createStatement();
+            String sql = "SELECT applicantId, firstName, lastName, placeOfEmpl, address, photoUrl FROM applicant";
+            ResultSet rs = statement.executeQuery(sql);
+            while (rs.next()){
+                applicants.add( new Applicant( rs.getInt("applicantId"),
+                        rs.getString("firstName"), rs.getString("lastName"),
+                        rs.getString("placeOfEmpl"), rs.getString("address"),
+                        rs.getString("photoUrl") ));
+            }
+            rs.close();
+            System.out.println("Close connection.");
+        } catch (SQLException | ClassNotFoundException e){
+            System.out.println(e.getMessage());
+        }
         return applicants;
     }
-
-    @Path("names")
-    @GET
-    public String getApplicantsNames(){
-        String applicantsName  = "";
-        for(Applicant apl: applicants ){
-            applicantsName += apl.getFullName()+", ";
-        }
-        return applicantsName;
-    }
-
 }

@@ -1,9 +1,12 @@
 package org.superbiz;
 
 import org.jboss.arquillian.container.test.api.Deployment;
+//import org.jboss.arquillian.container.test.apiDeployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.asset.EmptyAsset;
+import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Assert;
 import org.junit.Test;
@@ -55,17 +58,7 @@ public class ApplicantServiceTest extends Assert {
     private URL webappUrl;
 
     @Test
-    public void postAndGet() throws Exception {
-        // GET
-        {
-            final WebTarget webTarget = ClientBuilder.newClient().target(webappUrl.toURI());
-            final Response response = webTarget.path("applicants/names").request().get();
-            assertEquals(200, response.getStatus());
-        }
-    }
-
-    @Test
-    public void getApplicants() throws Exception {
+    public void getAllApplicants() throws Exception {
         final WebTarget webTarget = ClientBuilder.newClient().target(webappUrl.toURI());
         final Response  applicants = webTarget.path("applicants").request().accept(MediaType.APPLICATION_JSON).get();
         assertNotNull(applicants);

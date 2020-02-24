@@ -14,24 +14,15 @@ public class Applicant {
     private ArrayList<Message> chat;
 
     public Applicant() {
+    }
 
-    }
-    public Applicant(String applicantFirstName, String applicantLastName) {
-        this.applicantFirstName = applicantFirstName;
-        this.applicantLastName = applicantLastName;
-    }
-    public Applicant(String applicantFirstName, String applicantLastName, String placeOfEmployment, String addres) {
-        this.applicantFirstName = applicantFirstName;
-        this.applicantLastName = applicantLastName;
-        this.placeOfEmployment = placeOfEmployment;
-        this.addres = addres;
-    }
-    public Applicant(int applicantId,String applicantFirstName, String applicantLastName, String placeOfEmployment, String addres) {
+    public Applicant(int applicantId,String applicantFirstName, String applicantLastName, String placeOfEmployment, String addres, String applicantPhotoURL) {
         this.applicantId = applicantId;
         this.applicantFirstName = applicantFirstName;
         this.applicantLastName = applicantLastName;
         this.placeOfEmployment = placeOfEmployment;
         this.addres = addres;
+        this.applicantPhotoURL = applicantPhotoURL;
     }
 
     //getters and setters

@@ -1,0 +1,43 @@
+.editFormPopup {
+    position: fixed;
+    border: 1px solid #006666;
+    box-shadow: 5px 10px 18px #006666;
+    width:50%;
+    font-family: Arial;
+    border-radius: 5px;
+}
+
+.editFormContainer {
+    background-color: #F5F5F5;
+    margin: 0px;
+}
+
+.editBarP{
+    background-color: #006666;
+    font-size: 1em;
+    font-weight: bold;
+    color: #eeeeec;
+    padding: 10px;
+}
+
+.editDivElem{
+    overflow-y: scroll;
+    height: 400px;
+    margin-left: 10px;
+}
+
+.editP{
+    border-bottom: 0.5px solid #006666;
+    color: #006666;
+}
+
+.editBtnDiv{
+    background-color: #006666;
+}
+
+.editBtnFont{
+    color: #003333;
+    font-size: 0.8em;
+    border-radius: 2px;
+    margin: 5px;
+}
