@@ -13,7 +13,7 @@ class ApplicantInfo extends React.Component {
 	}
 
 	/*Lifting state up, with this function we can send chosen applicant id
-	* from ApplicantInfo to ApplicantList (from child class to parent class)*/
+	* from ApplicantInfo to ApplicantApp (from child class to parent class)*/
 	handleClickOnApplicant(e){
 		this.props.onMoreInfoChange(this.props.info.applicantId);
 	}

@@ -176,6 +176,7 @@ SELECT * from experience;
 SELECT * from education;
 SELECT * from message;
 
+"SELECT applicantId, firstName, lastName, placeOfEmpl, address, photoUrl FROM applicant";
 SELECT applicantId, firstName, lastName, placeOfEmpl, address, photoUrl FROM applicant;
 SELECT expId, companyName, photoUrl, position, time, place FROM experience WHERE applicantId = 6;
 "SELECT expId, companyName, photoUrl, position, time, place FROM experience WHERE applicantId =" + applicantId;

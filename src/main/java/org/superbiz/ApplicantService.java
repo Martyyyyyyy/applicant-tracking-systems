@@ -52,6 +52,38 @@ public class ApplicantService {
                 .build();
     }
 
+    @Path("search/{value}")
+    @GET
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response searchApplicants(@PathParam("value") String inputValue) throws SQLException {
+        ArrayList<Applicant> applicants = new ArrayList<Applicant>();
+        Connection conn = null;
+        try {
+            Class.forName("org.postgresql.Driver");
+            conn = DriverManager.getConnection(url, user, password);
+            //System.out.println("Connected to the PostgreSQL server successfuly.");
+            Statement statement = conn.createStatement();
+            String sql = "SELECT applicantId, firstName, lastName, placeOfEmpl, address, photoUrl FROM applicant " +
+                    "WHERE firstName ILIKE '"+inputValue+"%'";
+            ResultSet rs = statement.executeQuery(sql);
+            while (rs.next()){
+                applicants.add( new Applicant( rs.getInt("applicantId"),
+                        rs.getString("firstName"), rs.getString("lastName"),
+                        rs.getString("placeOfEmpl"), rs.getString("address"),
+                        rs.getString("photoUrl") ));
+            }
+            rs.close();
+        } catch (SQLException | ClassNotFoundException e){
+            System.out.println(e.getMessage());
+        }
+        return Response
+                .status(Response.Status.OK)
+                .entity(applicants)
+                .type(MediaType.APPLICATION_JSON)
+                .build();
+    }
+
+
     /*Return more information about selected applicant.*/
     @Path("moreInfo/{applId}")
     @GET
