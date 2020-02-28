@@ -15,9 +15,11 @@ class ApplicantApp extends React.Component{
             applicantMoreInfo: {},
             showMoreInfo: false,
             showEditForm: false,
+            searchingApplicants : false,
             classStyle: "firstDivStyle",
         };
         this.handleMoreInfo = this.handleMoreInfo.bind(this);
+        this.handleBackToHome = this.handleBackToHome.bind(this);
         this.searchApplicants = this.searchApplicants.bind(this);
         this.closeForm = this.closeForm.bind(this);
         this.editApplicant = this.editApplicant.bind(this);
@@ -48,8 +50,34 @@ class ApplicantApp extends React.Component{
         this.setState({chosenApplicantId: id, showMoreInfo: true, classStyle: "secondDivStyle"});
     }
 
-    searchApplicants(input){
+    handleBackToHome(){
         this.setState({showMoreInfo: false, classStyle: "firstDivStyle"});
+        if(this.state.searchingApplicants){
+            fetch('http://localhost:8080/applicant-tracking-systems-1.0-SNAPSHOT/applicants', {
+                method: 'GET',
+                mode: 'cors',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Origin' : 'http://localhost:3000',
+                }
+            })
+                .then((response) =>
+                {
+                    console.log('response', response); return response.json()
+                })
+                .then((json) =>
+                {
+                    console.log('json: ', json);
+                    this.setState({applicants: json});
+                })
+                .catch((e) => console.log(e)) ;
+            this.setState({searchingApplicants: false});
+        }
+    }
+
+    searchApplicants(input){
+        this.setState({showMoreInfo: false, classStyle: "firstDivStyle",searchingApplicants: true,});
         let url = 'http://localhost:8080/applicant-tracking-systems-1.0-SNAPSHOT/applicants/search/' + input;
         fetch(url, {
             method: 'GET',
@@ -125,7 +153,7 @@ class ApplicantApp extends React.Component{
         }
         return(
             <div>
-                <SearchBar onEnterSearch={this.searchApplicants}/>
+                <SearchBar onEnterSearch={this.searchApplicants} onLogoClick={this.handleBackToHome}/>
                 <section className="sectionStyle">
                     {editForm}
                     <div className="sectionStyle2">

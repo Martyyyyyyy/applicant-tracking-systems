@@ -13,7 +13,6 @@ class SearchBar extends React.Component {
     searchOnEnter(event){
         if(event.key === 'Enter'){
             this.props.onEnterSearch(event.target.value);
-            //alert(event.target.value);
         }
     }
 
@@ -21,7 +20,7 @@ class SearchBar extends React.Component {
         return(
             <div className="searchBar">
                 <div className="logoDiv searchDivEle">
-                    <img className="logoImg"src={logo} alt="DCCS"/>
+                    <img className="logoImg"src={logo} alt="DCCS" onClick={this.props.onLogoClick}/>
                 </div>
                 <div className="inputDiv searchDivEle">
                     <label className="searchLabel"><FiSearch/></label>
