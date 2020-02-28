@@ -33,6 +33,6 @@
   font-family: Arial;
   flex-grow: 1;
   height: 589px;
-  overflow-y: hidden;
+  overflow-y: auto;
 }
 

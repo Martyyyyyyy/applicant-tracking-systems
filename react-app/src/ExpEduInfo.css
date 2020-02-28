@@ -6,6 +6,9 @@
   font-family: Arial;
   flex-grow: 1;
   margin: 0px 10px;
+    overflow-y: auto;
+    height: 589px;
+    width: 30%;
 }
 .sectionCss{
 	display: flex;
@@ -18,8 +21,8 @@
 .imgDiv{
   display: inline-block;
   float: left;
-  width: 20%;
-  height: 90px;
+  width: 80px;
+  height: 80px;
   border: 1px solid  #d3d7cf;
   background-color: #ffffff;
   }

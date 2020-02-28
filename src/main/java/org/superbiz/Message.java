@@ -1,20 +1,19 @@
 package org.superbiz;
 
-import java.util.Date;
-
 public class Message {
     private int messageId;
     private String sender;
     private String message;
-    private Date date;
-    private String senderPhoto;
-
+    private String date;
 
     public Message() {
     }
-    public Message(String sender, String message) {
+
+    public Message(int messageId ,String sender, String message, String date) {
+        this.messageId = messageId;
         this.sender = sender;
         this.message = message;
+        this. date = date;
     }
 
     //getters and setters
@@ -36,10 +35,10 @@ public class Message {
     public void setMessage(String message) {
         this.message = message;
     }
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 }

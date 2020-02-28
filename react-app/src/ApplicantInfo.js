@@ -9,6 +9,13 @@ class ApplicantInfo extends React.Component {
 	constructor(props){
 		super(props);
 		this.deleteApplicant = this.deleteApplicant.bind(this);
+		this.handleClickOnApplicant = this.handleClickOnApplicant.bind(this);
+	}
+
+	/*Lifting state up, with this function we can send chosen applicant id
+	* from ApplicantInfo to ApplicantList (from child class to parent class)*/
+	handleClickOnApplicant(e){
+		this.props.onMoreInfoChange(this.props.info.applicantId);
 	}
 
 	/*Delete selected applicant. */
@@ -22,7 +29,7 @@ class ApplicantInfo extends React.Component {
 	render(){
 		return(
 			<section>
-				<div className="divElInf" onClick={this.props.triggerParentUpdate}>
+				<div className="divElInf"  onClick={this.handleClickOnApplicant}>
 					<div className="imgDivInf">
 						<img className="applImgInf" src={this.props.info.applicantPhotoURL} alt="Applicant"/>
 					</div>
@@ -39,6 +46,7 @@ class ApplicantInfo extends React.Component {
 			</section>
 		);
 	}
+
 } 
 
 export default ApplicantInfo;

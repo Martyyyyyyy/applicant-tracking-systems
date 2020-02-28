@@ -18,9 +18,9 @@ CREATE TABLE education(eduId integer GENERATED ALWAYS AS IDENTITY PRIMARY KEY , 
  photoUrl varchar(500), diploma varchar(100), modul varchar(100), time varchar(30) NOT NULL,
  applicantId integer NOT NULL, FOREIGN KEY (applicantId) REFERENCES applicant(applicantId));
 
-CREATE TABLE message(msgId integer GENERATED ALWAYS AS IDENTITY PRIMARY KEY, sender varchar(50) NOT NULL, msg varchar(500) NOT NULL,
- date varchar(50), senderPhoto varchar(500), applicantId integer NOT NULL, FOREIGN KEY (applicantId) REFERENCES applicant(applicantId));
----------------------------------------------
+CREATE TABLE message(msgId integer GENERATED ALWAYS AS IDENTITY PRIMARY KEY, sender varchar(10) NOT NULL, msg varchar(500) NOT NULL,
+                     date varchar(50), applicantId integer NOT NULL, FOREIGN KEY (applicantId) REFERENCES applicant(applicantId));
+
 INSERT INTO applicant(firstName, lastName, placeOfEmpl, address,photoUrl)
 VALUES ('Almir', 'Omerovic', 'Software Engineer at DCCS, Tuzla','Moluhe,7500 Tuzla',
         'https://scontent.ftzl2-1.fna.fbcdn.net/v/t1.0-9/s960x960/36717461_2267391713287965_8766276259727540224_o.jpg?_nc_cat=104&_nc_ohc=7bOzcR-Zuf8AX-Myd80&_nc_ht=scontent.ftzl2-1.fna&oh=65a8ffe1b34fafabca4f6adf06708cad&oe=5EFE6CCE');
@@ -60,7 +60,7 @@ VALUES ('Lejla', 'Hodzic', 'Software Engineer at Bicom Systems, Tuzla','Srebreni
 INSERT INTO applicant(firstName, lastName, placeOfEmpl, address,photoUrl)
 VALUES ('Ademir', 'Burgic', 'Software Developer at Cape Ann Enterprises, Tuzla','Tuzla, Bosnia and Herzegovina',
         'https://media-exp1.licdn.com/dms/image/C5603AQFyJN2HAIFxFA/profile-displayphoto-shrink_200_200/0?e=1588204800&v=beta&t=cMk42BdrEWaKsp2RAw-kNOSWKQi44fpKPXxxxqkJaR4');
-------------------------------------------------
+
 INSERT INTO education(instName, photoUrl, diploma, modul, time, applicantId)
 VALUES ('University of Tuzla','http://www.untz.ba/uploads/BizBuzz/pageLogo.png', 'Bachelor  of Science in Electrical Engineering','Faculty of Electrical Engineering, Computer Science',
         '2014 - 2019', 10);
@@ -88,7 +88,7 @@ VALUES ('University of Tuzla','http://www.untz.ba/uploads/BizBuzz/pageLogo.png',
 INSERT INTO education(instName, photoUrl, diploma, modul, time, applicantId)
 VALUES ('University of Tuzla','http://www.untz.ba/uploads/BizBuzz/pageLogo.png', 'Master degree, Computer Science and Informatics','Faculty of Electrical Engineering, Computer Science',
         '2018 - 2019', 6);
--------------------------------------------------
+
 INSERT INTO experience(companyName, position, time, place, applicantId, photoUrl)
 VALUES ('Virgin Pulse', 'Associate Software Developer', 'Nov 2018 - Present', 'Tuzla', 2,
         'https://media-exp1.licdn.com/dms/image/C4E0BAQFWga-jSjuEow/company-logo_100_100/0?e=1590624000&v=beta&t=qDtm81I8HnhM8TQABE6qEYknf3UnvPFx9t1TGse4oQk');
@@ -120,19 +120,57 @@ VALUES ('Bicom Systems', 'Software Engineer', 'Sep 2018 - Present', 'Tuzla', 9,
 INSERT INTO experience(companyName, position, time, place, applicantId, photoUrl)
 VALUES ('Cape Ann Enterprises', 'Software Developer', 'Feb 2018 - Present', 'Tuzla', 10,
         'https://media-exp1.licdn.com/dms/image/C560BAQGDy4uBamexCw/company-logo_100_100/0?e=1590624000&v=beta&t=NPasM5ELxCNdi_PEnpU5aOxZA6MjPAn10TMOo2pBDqU');
--------------------------------------------------------
 
-INSERT INTO message(sender, msg, date, applicantId, senderPhoto)
-VALUES ('Arza Grbic', 'Hi, Admin...','Jan 28, 12:40 AM',2,
-        'https://media-exp1.licdn.com/dms/image/C5603AQEIuyIfXPf4Yg/profile-displayphoto-shrink_800_800/0?e=1586995200&v=beta&t=VG_5lpt60er6gDzZvg5RgTeKBTHESfVYKrm71LX0tSM');
+INSERT INTO message(sender, msg, date, applicantId)
+VALUES ('admin', 'Hi, Almir...','Jan 28, 12:33 AM', 1 );
 
-INSERT INTO message(sender, msg, date, applicantId, senderPhoto)
-VALUES ('Arza Grbic', 'Yes, I have ...','Jan 28, 12:50 AM',2,
-        'https://media-exp1.licdn.com/dms/image/C5603AQEIuyIfXPf4Yg/profile-displayphoto-shrink_800_800/0?e=1586995200&v=beta&t=VG_5lpt60er6gDzZvg5RgTeKBTHESfVYKrm71LX0tSM');
+INSERT INTO message(sender, msg, date, applicantId)
+VALUES ('admin', 'Hi, Arza...','Jan 28, 13:33 AM', 2 );
 
-INSERT INTO message(sender, msg, date, applicantId, senderPhoto)
-VALUES ('admin', 'Hi, Arza...','Jan 28, 12:33 AM',2, 'https://epcsynergy.com/image/
+INSERT INTO message(sender, msg, date, applicantId)
+VALUES ('admin', 'Hi, Ina...','Jan 28, 14:33 AM', 3 );
+
+INSERT INTO message(sender, msg, date, applicantId)
+VALUES ('admin', 'Hi, Adisa...','Jan 29, 12:33 AM', 4 );
+
+INSERT INTO message(sender, msg, date, applicantId)
+VALUES ('admin', 'Hi, Samir...','Jan 28, 12:43 AM', 5 );
+
+INSERT INTO message(sender, msg, date, applicantId)
+VALUES ('admin', 'Hi, Slaven...','Jan 30, 11:33 AM', 6 );
+
+INSERT INTO message(sender, msg, date, applicantId)
+VALUES ('admin', 'Hi, Haris...','Jan 10, 10:33 AM', 7 );
+
+INSERT INTO message(sender, msg, date, applicantId)
+VALUES ('admin', 'Hi, Merima...','Jan 11, 12:33 AM', 8 );
+
+INSERT INTO message(sender, msg, date, applicantId)
+VALUES ('admin', 'Hi, Lejla...','Jan 18, 12:33 AM', 9 );
+
+INSERT INTO message(sender, msg, date, applicantId)
+VALUES ('admin', 'Hi, Ademir...','Jan 22, 15:33 AM',10 );
+
+INSERT INTO message(sender, msg, date, applicantId)
+VALUES ('applicant', 'Hi, Yes I can...','Jan 28, 12:43 AM', 1 );
+
+INSERT INTO message(sender, msg, date, applicantId)
+VALUES ('admin', 'It would be great if you...','Jan 28, 12:53 AM', 1 );
+
+INSERT INTO message(sender, msg, date, applicantId)
+VALUES ('applicant', 'I will see what I can do...','Jan 28, 12:55 AM', 1 );
+
+INSERT INTO message(sender, msg, date, applicantId)
+VALUES ('admin', 'Also...','Jan 28, 12:57 AM', 1 );
+
+INSERT INTO message(sender, msg, date, applicantId)
+VALUES ('applicant', 'Maybe if...','Jan 28, 13:01 AM', 1 );
+
+INSERT INTO message(sender, msg, date, applicantId)
+VALUES ('admin', 'It is a good idea to...','Jan 28, 13:11 AM', 1 );
 ----------------------------------------------------------
+Test Sql
+---------------------------------------------------------
 SELECT * from applicant;
 SELECT * from experience;
 SELECT * from education;
@@ -141,3 +179,8 @@ SELECT * from message;
 SELECT applicantId, firstName, lastName, placeOfEmpl, address, photoUrl FROM applicant;
 SELECT expId, companyName, photoUrl, position, time, place FROM experience WHERE applicantId = 6;
 "SELECT expId, companyName, photoUrl, position, time, place FROM experience WHERE applicantId =" + applicantId;
+"SELECT eduId, instName, photoUrl, diploma, modul, time FROM education WHERE applicantId =" + applicantId;
+"SELECT msgId, sender, msg, date, senderPhoto FROM message WHERE applicantId ="+ applicantId;
+"SELECT  firstName, lastName, photoUrl FROM applicant WHERE  applicantId =" + applicantId;
+
+DELETE FROM message WHERE  applicantId = 3;

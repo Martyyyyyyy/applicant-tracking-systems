@@ -1,6 +1,5 @@
 import React from 'react';
 import ApplicantInfo from './ApplicantInfo.js';
-import ClientDemo from './ClientDemo.js';
 import ExpEduInfo from './ExpEduInfo.js';
 import ChatInfo from './ChatInfo.js';
 import './ApplicantList.css';
@@ -15,23 +14,39 @@ class ApplicantList extends React.Component {
 		super(props);
 		this.state = {
 			applicants: [],
-			moreInfo: false,
+			chosenApplicantId: null,
+			applicantMoreInfo: {},
 			classStyle: "firstDivStyle",
 			showEditForm: false,
-		}; 
-		this.showMoreInfo = this.showMoreInfo.bind(this);
+		};
+		this.handleMoreInfo = this.handleMoreInfo.bind(this);
 		this.closeForm = this.closeForm.bind(this);
 		this.editApplicant = this.editApplicant.bind(this);
-		this.clientDemo = new ClientDemo();
-		this.clientDemo.getAllApplicants().then(a => this.setState({applicants: a}));
 	}
 
-	/*Send this function as props to ApplicantInfo.
-	* In ApplicantInfo onClick on Applicant open new information
-	* about that Applicant (Experience, Education, Chat).
-	* Change style of Div element */
-	showMoreInfo(){
-		this.setState({moreInfo: true, classStyle: "secondDivStyle",});
+	handleMoreInfo(id){
+		let url = 'http://localhost:8080/applicant-tracking-systems-1.0-SNAPSHOT/applicants/moreInfo/' + id;
+		fetch(url, {
+			method: 'GET',
+			mode: 'cors',
+			credentials: 'include',
+			headers: {
+				'Content-Type': 'application/json',
+				'Origin' : 'http://localhost:3000',
+			}
+		})
+			.then((response) =>
+			{
+				console.log('response', response); return response.json()
+			})
+			.then((json) =>
+			{
+				console.log('json: ', json);
+				this.setState({applicantMoreInfo: json});
+			})
+			.catch((e) => console.log(e));
+
+		this.setState({chosenApplicantId: id, moreInfo: true, classStyle: "secondDivStyle"});
 	}
 
 	/*Send as props to EditForm, on button click Close,
@@ -46,18 +61,43 @@ class ApplicantList extends React.Component {
 		this.setState({showEditForm: true});
 	}
 
-	/*If moreInfo have true value create and show more elements (ExpEduInfo, chatInfo).
+	componentDidMount() {
+		fetch('http://localhost:8080/applicant-tracking-systems-1.0-SNAPSHOT/applicants', {
+			method: 'GET',
+			mode: 'cors',
+			credentials: 'include',
+			headers: {
+				'Content-Type': 'application/json',
+				'Origin' : 'http://localhost:3000',
+			}
+		})
+			.then((response) =>
+			{
+				console.log('response', response); return response.json()
+			})
+			.then((json) =>
+			{
+				console.log('json: ', json);
+				this.setState({applicants: json});
+			})
+			.catch((e) => console.log(e)) ;
+
+	}
+
+
+	/*If Applicant is chosen show more info about that applicant (Experience, Education, Chat with admin).
 	* Map thru array of Applicants (applicants) and for each applicant show
-	* ApplicantInfo (Name, Photo, Place of Employment, Address).
+	* Applicants basic info (Name, Photo, Place of Employment, Address).
 	* If showEditForm have true value open edit pop-up and edit applicant info.*/
 	render(){
 		let expEduInfo = null;
 		let chatInfo = null;
-		if(this.state.moreInfo){
-			expEduInfo = <ExpEduInfo />;
-			chatInfo = <ChatInfo />;
-		}
 		let editForm = null;
+		if(this.state.applicantMoreInfo.applicantId){
+			expEduInfo = <ExpEduInfo education={this.state.applicantMoreInfo.education} experience={this.state.applicantMoreInfo.experience}/>;
+			chatInfo = <ChatInfo chat={this.state.applicantMoreInfo.chat}
+								 applName={this.state.applicantMoreInfo.fullName} applPhoto={this.state.applicantMoreInfo.applicantPhotoURL}/>;
+		}
 		if(this.state.showEditForm){
 			editForm = <EditForm triggerCloseForm={this.closeForm}/>;
 		}
@@ -70,14 +110,14 @@ class ApplicantList extends React.Component {
 							Showing {this.state.applicants.length} results
 						</p>
 						{this.state.applicants.map(a =>
-							<ApplicantInfo key={a.applicantId} info={a} triggerParentUpdate={this.showMoreInfo}
-										   triggerEditForm={this.editApplicant}/>
+							<ApplicantInfo key={a.applicantId} info={a} triggerEditForm={this.editApplicant}
+										   onMoreInfoChange={this.handleMoreInfo}/>
 										   )}
 					</div>
 					{expEduInfo}
 					{chatInfo}
 				</div>
-    		</section>
+			</section>
 		);
 	}
 

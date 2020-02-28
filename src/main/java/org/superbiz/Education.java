@@ -10,8 +10,9 @@ public class Education {
 
     public Education() {
     }
-    public Education(String institutionName, String institutionPhotoURL, String diploma, String modul,
+    public Education(int educationId , String institutionName, String institutionPhotoURL, String diploma, String modul,
                      String attendanceTime) {
+        this.educationId = educationId;
         this.institutionName = institutionName;
         this.institutionPhotoURL = institutionPhotoURL;
         this.diploma = diploma;

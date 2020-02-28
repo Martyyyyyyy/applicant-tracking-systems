@@ -16,6 +16,16 @@ public class Applicant {
     public Applicant() {
     }
 
+    public Applicant(int applicantId, String applicantFirstName, String applicantLastName, String applicantPhotoURL, ArrayList<Experience> experience, ArrayList<Education> education, ArrayList<Message> chat) {
+        this.applicantId = applicantId;
+        this.applicantFirstName = applicantFirstName;
+        this.applicantLastName = applicantLastName;
+        this.applicantPhotoURL = applicantPhotoURL;
+        this.experience = experience;
+        this.education = education;
+        this.chat = chat;
+    }
+
     public Applicant(int applicantId,String applicantFirstName, String applicantLastName, String placeOfEmployment, String addres, String applicantPhotoURL) {
         this.applicantId = applicantId;
         this.applicantFirstName = applicantFirstName;

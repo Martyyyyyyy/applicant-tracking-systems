@@ -1,6 +1,6 @@
 import React from "react";
 import './SearchBar.css';
-import logo from './dccs.png';
+import logo from './png/dccs.png';
 import {FiSearch} from 'react-icons/fi';
 
 class SearchBar extends React.Component {

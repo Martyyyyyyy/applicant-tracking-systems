@@ -10,8 +10,10 @@ public class Experience {
 
     public Experience() {
     }
-    public Experience(String companyName, String companyPhotoURL, String workingPosition, String timeOfEmployment,
+
+    public Experience(int experienceId ,String companyName, String companyPhotoURL, String workingPosition, String timeOfEmployment,
                       String placeOfEmployment) {
+        this.experienceId = experienceId;
         this.companyName = companyName;
         this.companyPhotoURL = companyPhotoURL;
         this.workingPosition = workingPosition;
@@ -56,4 +58,7 @@ public class Experience {
     public void setPlaceOfEmployment(String placeOfEmployment) {
         this.placeOfEmployment = placeOfEmployment;
     }
+
+
+
 }
