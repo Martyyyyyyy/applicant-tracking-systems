@@ -185,3 +185,6 @@ SELECT expId, companyName, photoUrl, position, time, place FROM experience WHERE
 "SELECT  firstName, lastName, photoUrl FROM applicant WHERE  applicantId =" + applicantId;
 
 DELETE FROM message WHERE  applicantId = 3;
+
+SELECT applicantId, firstName, lastName, placeOfEmpl, address, photoUrl FROM applicant
+WHERE firstName ILIKE 'a%' OR lastName ILIKE 'a%' OR address ILIKE '%a%' OR placeOfEmpl ILIKE '%a%' ;

@@ -64,7 +64,8 @@ public class ApplicantService {
             //System.out.println("Connected to the PostgreSQL server successfuly.");
             Statement statement = conn.createStatement();
             String sql = "SELECT applicantId, firstName, lastName, placeOfEmpl, address, photoUrl FROM applicant " +
-                    "WHERE firstName ILIKE '"+inputValue+"%'";
+                    "WHERE firstName ILIKE '"+inputValue+"%' OR lastName ILIKE '"+inputValue+"%' " +
+                    "OR address ILIKE '%"+inputValue+"%' OR placeOfEmpl ILIKE '%"+inputValue+"%'";
             ResultSet rs = statement.executeQuery(sql);
             while (rs.next()){
                 applicants.add( new Applicant( rs.getInt("applicantId"),
