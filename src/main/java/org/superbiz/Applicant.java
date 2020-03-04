@@ -35,6 +35,17 @@ public class Applicant {
         this.applicantPhotoURL = applicantPhotoURL;
     }
 
+    public Applicant(int applicantId, String applicantFirstName, String applicantLastName, String placeOfEmployment, String addres, String applicantPhotoURL, ArrayList<Experience> experience, ArrayList<Education> education) {
+        this.applicantId = applicantId;
+        this.applicantFirstName = applicantFirstName;
+        this.applicantLastName = applicantLastName;
+        this.placeOfEmployment = placeOfEmployment;
+        this.addres = addres;
+        this.applicantPhotoURL = applicantPhotoURL;
+        this.experience = experience;
+        this.education = education;
+    }
+
     //getters and setters
     public int getApplicantId() {
         return applicantId;

@@ -15,7 +15,7 @@
 
 .applImgInf{
 	width: auto;
-	height: 80px;
+	height: 60px;
 	border-radius: 50%;
 }
 
@@ -28,6 +28,7 @@
 	color: #008b8b;
 	font-size: 1em;
 	font-weight: bold;
+	margin-bottom: 0px;
 }
 
 .textCss3Inf{
@@ -48,13 +49,20 @@
 	float: right;
 }
 
-.btnFont{
+.infoBtnFont{
 	color: #003333;
+	background-color: #f4f4f4;
+	border: none;
 	font-size: 0.8em;
-	border-radius: 2px;
+	border-radius: 12px;
 	margin: 5px;
+	transition-duration: 0.4s;
 }
 
+.infoBtnFont:hover{
+	background-color: #003333;
+	color:  white;
+}
 
 
 

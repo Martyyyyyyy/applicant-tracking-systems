@@ -15,14 +15,16 @@ class ApplicantApp extends React.Component{
             applicantMoreInfo: {},
             showMoreInfo: false,
             showEditForm: false,
+            applicantIdToEdit: null,
             searchingApplicants : false,
             classStyle: "firstDivStyle",
         };
         this.handleMoreInfo = this.handleMoreInfo.bind(this);
         this.handleBackToHome = this.handleBackToHome.bind(this);
         this.searchApplicants = this.searchApplicants.bind(this);
+        this.handleDelete = this.handleDelete.bind(this);
+        this.handleEdit = this.handleEdit.bind(this);
         this.closeForm = this.closeForm.bind(this);
-        this.editApplicant = this.editApplicant.bind(this);
     }
 
     handleMoreInfo(id){
@@ -51,7 +53,7 @@ class ApplicantApp extends React.Component{
     }
 
     handleBackToHome(){
-        this.setState({showMoreInfo: false, classStyle: "firstDivStyle"});
+        this.setState({showMoreInfo: false, classStyle: "firstDivStyle",showEditForm: false});
         if(this.state.searchingApplicants){
             fetch('http://localhost:8080/applicant-tracking-systems-1.0-SNAPSHOT/applicants', {
                 method: 'GET',
@@ -100,16 +102,18 @@ class ApplicantApp extends React.Component{
             .catch((e) => console.log(e)) ;
     }
 
+    handleDelete(name){
+        alert("Applicant "+name+" deleted.");
+    }
+
+    handleEdit(id){
+        this.setState({showEditForm: true, applicantIdToEdit: id});
+    }
+
     /*Send as props to EditForm, on button click Close,
 	* from EditForm close edit form */
     closeForm(){
         this.setState({showEditForm: false});
-    }
-
-    /*Send as props to ApplicantInfo, on button click Edit,
-	* from ApplicantInfo open edit pop-up.*/
-    editApplicant(){
-        this.setState({showEditForm: true});
     }
 
     componentDidMount() {
@@ -149,21 +153,21 @@ class ApplicantApp extends React.Component{
                                  applName={this.state.applicantMoreInfo.fullName} applPhoto={this.state.applicantMoreInfo.applicantPhotoURL}/>;
         }
         if(this.state.showEditForm){
-            editForm = <EditForm triggerCloseForm={this.closeForm}/>;
+            editForm = <EditForm onCloseForm={this.closeForm} id={this.state.applicantIdToEdit}/>;
         }
         return(
             <div>
                 <SearchBar onEnterSearch={this.searchApplicants} onLogoClick={this.handleBackToHome}/>
+                {editForm}
                 <section className="sectionStyle">
-                    {editForm}
                     <div className="sectionStyle2">
                         <div className={this.state.classStyle}>
                             <p className="textCss">
                                 Showing {this.state.applicants.length} results
                             </p>
                             {this.state.applicants.map(a =>
-                                <ApplicantInfo key={a.applicantId} info={a} triggerEditForm={this.editApplicant}
-                                               onMoreInfoChange={this.handleMoreInfo}/>
+                                <ApplicantInfo key={a.applicantId} info={a} onEdit={this.handleEdit}
+                                               onMoreInfoChange={this.handleMoreInfo} onDelete={this.handleDelete}/>
                             )}
                         </div>
                         {expEduInfo}
