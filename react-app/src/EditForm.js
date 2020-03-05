@@ -1,103 +1,11 @@
 import React from "react";
+import ExperienceForm from "./ExperienceForm";
+import EducationForm from "./EducationForm";
 import {IoIosCloseCircle} from 'react-icons/io';
 import {MdUpdate} from 'react-icons/md';
 import {MdAddCircle} from 'react-icons/md';
 import './EditForm.css';
 
-
-class ExperienceForm extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            companyName: '',
-            companyPhoto: '',
-            position: '',
-            time: '',
-            place: '',
-        };
-    }
-    render(){
-        return(
-            <section>
-                <div className="form-group row">
-                    <label className="col-sm-2 col-form-label">Company Name:</label>
-                    <div className="col-sm-10">
-                        <input type="text" className="form-control" placeholder="Company Name"/>
-                    </div>
-                </div>
-                <div className="form-group row">
-                    <label className="col-sm-2 col-form-label">Company Photo URL:</label>
-                    <div className="col-sm-10">
-                        <input type="text" className="form-control" placeholder="Company Photo URL"/>
-                    </div>
-                </div>
-                <div className="form-group row">
-                    <label className="col-sm-2 col-form-label">Working Position:</label>
-                    <div className="col-sm-10">
-                        <input type="text" className="form-control" placeholder="Working Position"/>
-                    </div>
-                </div>
-                <div className="form-group row">
-                    <label className="col-sm-2 col-form-label">Time Of Employment:</label>
-                    <div className="col-sm-10">
-                        <input type="text" className="form-control" placeholder="Time Of Employment"/>
-                    </div>
-                </div>
-                <div className="form-group row">
-                    <label className="col-sm-2 col-form-label">Place Of Employment:</label>
-                    <div className="col-sm-10">
-                        <input type="text" className="form-control" placeholder="Place Of Employment"/>
-                    </div>
-                </div>
-            </section>
-        );
-    }
-}
-
-class  EducationForm extends React.Component{
-    constructor(props){
-        super(props);
-        this.state = {
-
-        };
-    }
-    render(){
-        return(
-            <section>
-                <div className="form-group row">
-                    <label className="col-sm-2 col-form-label">Institution Name:</label>
-                    <div className="col-sm-10">
-                        <input type="text" className="form-control" placeholder="Institution Name"/>
-                    </div>
-                </div>
-                <div className="form-group row">
-                    <label className="col-sm-2 col-form-label">Institution Photo URL:</label>
-                    <div className="col-sm-10">
-                        <input type="text" className="form-control" placeholder="Institution Photo URL"/>
-                    </div>
-                </div>
-                <div className="form-group row">
-                    <label className="col-sm-2 col-form-label">Diploma:</label>
-                    <div className="col-sm-10">
-                        <input type="text" className="form-control" placeholder="Diploma"/>
-                    </div>
-                </div>
-                <div className="form-group row">
-                    <label className="col-sm-2 col-form-label">Modul:</label>
-                    <div className="col-sm-10">
-                        <input type="text" className="form-control" placeholder="Modul"/>
-                    </div>
-                </div>
-                <div className="form-group row">
-                    <label className="col-sm-2 col-form-label">Attendace Time:</label>
-                    <div className="col-sm-10">
-                        <input type="text" className="form-control" placeholder="Attendace Time"/>
-                    </div>
-                </div>
-            </section>
-        );
-    }
-}
 
 class EditForm extends React.Component{
     constructor(props){
@@ -111,9 +19,12 @@ class EditForm extends React.Component{
             address: '',
             experience: [],
             education: [],
+            newExperience: [],
+            newEducation: [],
             addExperienceForm: false,
             addEducationForm: false,
         };
+
         this.updateApplicant = this.updateApplicant.bind(this);
         this.handleChangeFirstName = this.handleChangeFirstName.bind(this);
         this.handleChangeLastName = this.handleChangeLastName.bind(this);
@@ -124,12 +35,51 @@ class EditForm extends React.Component{
         this.closeAddExperience = this.closeAddExperience.bind(this);
         this.addEducation = this.addEducation.bind(this);
         this.closeAddEducation = this.closeAddEducation.bind(this);
+        this.onAddNewExperience = this.onAddNewExperience.bind(this);
+        this.onAddNewEducation = this.onAddNewEducation.bind(this);
     }
 
     updateApplicant(event){
         event.preventDefault();
-        alert("Update applicant information!");
+        let validInput = true;
+        if(!this.state.firstName)
+            validInput = false;
+        if(!this.state.lastName)
+            validInput = false;
+        if(!this.state.address)
+            validInput = false;
+        if(validInput){
+            let formData = new FormData();
+            formData.append('firstName', this.state.firstName);
+            formData.append('lastName', this.state.lastName);
+            formData.append('applicantPhoto', this.state.applicantPhoto);
+            formData.append('placeOfEmpl', this.state.placeOfEmpl);
+            formData.append('address', this.state.address);
+            let url = 'http://localhost:8080/applicant-tracking-systems-1.0-SNAPSHOT/applicants/update/' + this.props.id;
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    'Origin' : 'http://localhost:3000',
+                },
+                body: formData,
+            })
+                .then((response) => {
+                    console.log('response', response); return response.text();
+                })
+                .then((text) => {
+                    console.log('text: ', text);
+                    alert('Applicant updated!');
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+        } else {
+            alert('Check your input values to update personal information!');
+            console.log('Check your input values to update personal information!');
+        }
     }
+
     handleChangeFirstName(event){
         this.setState({firstName: event.target.value});
     }
@@ -148,6 +98,7 @@ class EditForm extends React.Component{
     addExperience(event){
         event.preventDefault();
         this.setState({addExperienceForm: true});
+
     }
     closeAddExperience(event){
         event.preventDefault();
@@ -160,6 +111,12 @@ class EditForm extends React.Component{
     closeAddEducation(event){
         event.preventDefault();
         this.setState({addEducationForm: false});
+    }
+    onAddNewExperience(exp){
+        this.setState({newExperience: (this.state.newExperience).concat(exp)});
+    }
+    onAddNewEducation(edu){
+        this.setState({newEducation: (this.state.newEducation).concat(edu)});
     }
 
     componentDidMount() {
@@ -175,7 +132,7 @@ class EditForm extends React.Component{
         })
             .then((response) =>
             {
-                console.log('response', response); return response.json()
+                console.log('response', response); return response.json();
             })
             .then((json) =>
             {
@@ -197,11 +154,11 @@ class EditForm extends React.Component{
     render(){
         let expForm;
         if(this.state.addExperienceForm){
-            expForm = <ExperienceForm />;
+            expForm = <ExperienceForm onAddNewExp={this.onAddNewExperience} />;
         }
         let eduForm;
         if(this.state.addEducationForm){
-            eduForm = <EducationForm />;
+            eduForm = <EducationForm onAddNewEdu={this.onAddNewEducation} />;
         }
         return(
             <div className="editFormPopupCss">
@@ -249,6 +206,17 @@ class EditForm extends React.Component{
                                 </div>
                             </section>
                         )}
+                        {this.state.newExperience && this.state.newExperience.map(e =>
+                                <section className="editSectionComp" key={e.companyId}>
+                                    <div className="editDivComPhoto">
+                                        <img className="editCompPhoto"  src={e.companyPhoto} alt="company"/>
+                                    </div>
+                                    <div className="editDivCompInfo">
+                                        <p>{e.position} at {e.companyName}</p>
+                                    </div>
+                                </section>
+                            )
+                        }
                         <div>
                             <button onClick={this.addExperience} className="addNewBtnFont"><MdAddCircle/> Experience</button>
                             <button onClick={this.closeAddExperience} className="addNewBtnFont closeAddNewBtn"><IoIosCloseCircle/></button>
@@ -259,16 +227,27 @@ class EditForm extends React.Component{
                         {this.state.education.map(e =>
                             <section className="editSectionComp" key={e.educationId}>
                                 <div className="editDivComPhoto">
-                                    <img className="editCompPhoto"  src={e.institutionPhotoURL} alt="company"/>
+                                    <img className="editCompPhoto"  src={e.institutionPhotoURL} alt="institution"/>
                                 </div>
                                 <div className="editDivCompInfo">
                                     <p>{e.diploma} - {e.modul}</p>
                                 </div>
                             </section>
                         )}
+                        {this.state.newEducation && this.state.newEducation.map(e =>
+                            <section className="editSectionComp" key={e.institutionId}>
+                                <div className="editDivComPhoto">
+                                    <img className="editCompPhoto"  src={e.institutionPhoto} alt="institution"/>
+                                </div>
+                                <div className="editDivCompInfo">
+                                    <p>{e.module}</p>
+                                </div>
+                            </section>
+                        )
+                        }
                         <div>
                             <button onClick={this.addEducation} className="addNewBtnFont"><MdAddCircle/> Education</button>
-                            <button onClick={this.closeAddEducation} className="addNewBtnFont closeAddNewBtn"><IoIosCloseCircle/></button>
+                            <button onClick={this.closeAddEducation}  className="addNewBtnFont closeAddNewBtn"><IoIosCloseCircle/></button>
                         </div>
                         {eduForm}
 

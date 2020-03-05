@@ -334,5 +334,53 @@ public class ApplicantService {
                 .build();
     }
 
+    @Path("update/{applId}")
+    @POST
+    @Consumes({MediaType.MULTIPART_FORM_DATA})
+    @Produces({MediaType.TEXT_PLAIN})
+    public Response updateApplicant(@PathParam("applId") int applicantId,
+                                    @FormParam("firstName") String firstName,
+                                    @FormParam("lastName") String lastName,
+                                    @FormParam("applicantPhoto") String applicantPhoto,
+                                    @FormParam("placeOfEmpl") String placeOfEmpl,
+                                    @FormParam("address") String address ){
+        Connection conn = null;
+        Statement statement = null;
+        try {
+            Class.forName("org.postgresql.Driver");
+            conn = DriverManager.getConnection(url, user, password);
+            System.out.println("Connected to the PostgreSQL server to update Applicant.");
+            statement = conn.createStatement();
+            String sql = "UPDATE applicant " +
+                    "SET firstName='"+firstName+"', lastName='"+lastName+"', placeOfEmpl='"+placeOfEmpl+
+                    "', address ='"+address+"', photoUrl='"+applicantPhoto+
+                    "' WHERE applicantId ="+applicantId;
+            statement.executeUpdate(sql);
+            //conn.setAutoCommit(false);
+            System.out.println("Applicant with id = "+applicantId+" updated");
+        } catch (SQLException | ClassNotFoundException e){
+            System.out.println(e.getMessage());
+        }
+        finally {
+            try {
+                if(statement != null)
+                    statement.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            try {
+                if(conn != null){
+                    conn.close();
+                    System.out.println("Close connection.");
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return Response
+                .status(Response.Status.OK)
+                .entity("Applicant updated")
+                .build();
+    }
 
 }/*End of class ApplicantService*/
