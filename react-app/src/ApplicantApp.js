@@ -50,10 +50,16 @@ class ApplicantApp extends React.Component{
             .catch((e) => console.log(e));
 
         this.setState({chosenApplicantId: id, showMoreInfo: true, classStyle: "secondDivStyle"});
+        sessionStorage.setItem('showMoreInfo', 'true');
+        sessionStorage.setItem('classStyle', 'secondDivStyle');
+        sessionStorage.setItem('chosenApplicantId', id);
     }
 
     handleBackToHome(){
         this.setState({showMoreInfo: false, classStyle: "firstDivStyle",showEditForm: false});
+        sessionStorage.setItem('showMoreInfo', 'false');
+        sessionStorage.setItem('classStyle', 'firstDivStyle');
+        sessionStorage.setItem('showEditForm', 'false');
         if(this.state.searchingApplicants){
             fetch('http://localhost:8080/applicant-tracking-systems-1.0-SNAPSHOT/applicants', {
                 method: 'GET',
@@ -75,11 +81,16 @@ class ApplicantApp extends React.Component{
                 })
                 .catch((e) => console.log(e)) ;
             this.setState({searchingApplicants: false});
+            sessionStorage.setItem('searchingApplicants', 'false');
         }
     }
 
     searchApplicants(input){
+        sessionStorage.setItem('searchInput', input);
         this.setState({showMoreInfo: false, classStyle: "firstDivStyle",searchingApplicants: true,});
+        sessionStorage.setItem('showMoreInfo', 'false');
+        sessionStorage.setItem('classStyle', 'firstDivStyle');
+        sessionStorage.setItem('searchingApplicants', 'true');
         let url = 'http://localhost:8080/applicant-tracking-systems-1.0-SNAPSHOT/applicants/search/' + input;
         fetch(url, {
             method: 'GET',
@@ -108,36 +119,62 @@ class ApplicantApp extends React.Component{
 
     handleEdit(id){
         this.setState({showEditForm: true, applicantIdToEdit: id});
+        sessionStorage.setItem('showEditForm', 'true');
+        sessionStorage.setItem('applicantIdToEdit', id);
     }
 
     /*Send as props to EditForm, on button click Close,
 	* from EditForm close edit form */
     closeForm(){
         this.setState({showEditForm: false});
+        sessionStorage.setItem('showEditForm', 'false');
     }
 
     componentDidMount() {
-        fetch('http://localhost:8080/applicant-tracking-systems-1.0-SNAPSHOT/applicants', {
-            method: 'GET',
-            mode: 'cors',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json',
-                'Origin' : 'http://localhost:3000',
-            }
-        })
-            .then((response) =>
-            {
-                console.log('response', response); return response.json()
+        let searchInputSess =  sessionStorage.getItem('searchInput');
+        let showMoreInfoSess = sessionStorage.getItem('showMoreInfo') === 'true';
+        let showEditFormSess = sessionStorage.getItem('showEditForm') === 'true';
+        let searchingApplicantsSess = sessionStorage.getItem('searchingApplicants') === 'true';
+        let classStyleSess  = sessionStorage.getItem('classStyle');
+        let chosenApplicantIdSess = sessionStorage.getItem('chosenApplicantId');
+        let applicantIdToEditSess = sessionStorage.getItem('applicantIdToEdit');
+        if(!showMoreInfoSess)
+            classStyleSess = 'firstDivStyle';
+        this.setState({showMoreInfo: showMoreInfoSess, showEditForm: showEditFormSess, searchingApplicants: searchingApplicantsSess,
+            classStyle: classStyleSess, chosenApplicantId: chosenApplicantIdSess, applicantIdToEdit: applicantIdToEditSess});
+
+        if(searchingApplicantsSess){
+            this.searchApplicants(searchInputSess);
+        } else {
+            fetch('http://localhost:8080/applicant-tracking-systems-1.0-SNAPSHOT/applicants', {
+                method: 'GET',
+                mode: 'cors',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Origin' : 'http://localhost:3000',
+                }
             })
-            .then((json) =>
-            {
-                console.log('json: ', json);
-                this.setState({applicants: json});
-            })
-            .catch((e) => console.log(e)) ;
+                .then((response) =>
+                {
+                    console.log('response', response); return response.json()
+                })
+                .then((json) =>
+                {
+                    console.log('json: ', json);
+                    this.setState({applicants: json});
+                })
+                .catch((e) => console.log(e)) ;
+        }
+
+        if(showMoreInfoSess)
+            this.handleMoreInfo(chosenApplicantIdSess);
+        if(showEditFormSess)
+            this.handleEdit(applicantIdToEditSess);
 
     }
+
+
 
     /*If Applicant is chosen show more info about that applicant (Experience, Education, Chat with admin).
 	* Map thru array of Applicants (applicants) and for each applicant show
