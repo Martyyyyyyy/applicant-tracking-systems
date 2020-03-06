@@ -43,17 +43,57 @@ class  EducationForm extends React.Component{
     }
     addNewEducation(event){
         event.preventDefault();
-        let edu = {
-            institutionId: this.state.institutionId,
-            institutionName: this.state.institutionName,
-            institutionPhoto: this.state.institutionPhoto,
-            diploma: this.state.diploma,
-            module: this.state.module,
-            attendance: this.state.attendance
-        };
-        this.props.onAddNewEdu(edu);
-        let newId = this.state.institutionId + 1;
-        this.setState({institutionId: newId});
+        let validInput = true;
+        if(!this.state.institutionName)
+            validInput = false;
+        if(!this.state.institutionPhoto)
+            validInput = false;
+        if(!this.state.diploma)
+            validInput = false;
+        if(!this.state.module)
+            validInput = false;
+        if(!this.state.attendance)
+            validInput = false;
+        if(validInput){
+            let edu = {
+                institutionId: this.state.institutionId,
+                institutionName: this.state.institutionName,
+                institutionPhoto: this.state.institutionPhoto,
+                diploma: this.state.diploma,
+                module: this.state.module,
+                attendance: this.state.attendance,
+            };
+            this.props.onAddNewEdu(edu);
+            let newId = this.state.institutionId + 1;
+            this.setState({institutionId: newId});
+            let formData = new FormData();
+            formData.append('institutionName', this.state.institutionName);
+            formData.append('institutionPhoto', this.state.institutionPhoto);
+            formData.append('diploma', this.state.diploma);
+            formData.append('module', this.state.module);
+            formData.append('attendance', this.state.attendance);
+            let url = 'http://localhost:8080/applicant-tracking-systems-1.0-SNAPSHOT/applicants/insertEducation/' + this.props.applicantId;
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    'Origin' : 'http://localhost:3000',
+                },
+                body: formData,
+            })
+                .then((response) => {
+                    console.log('response', response); return response.text();
+                })
+                .then((text) => {
+                    console.log('text: ', text);
+                    alert('Education added!');
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+        } else {
+            alert('Invalid input!');
+        }
     }
 
     render(){

@@ -383,4 +383,96 @@ public class ApplicantService {
                 .build();
     }
 
+    @Path("insertExperience/{applId}")
+    @POST
+    @Consumes({MediaType.MULTIPART_FORM_DATA})
+    @Produces({MediaType.TEXT_PLAIN})
+    public Response insertExperience(@PathParam("applId") int applicantId,
+                                    @FormParam("companyName") String companyName,
+                                    @FormParam("companyPhoto") String companyPhoto,
+                                    @FormParam("position") String position,
+                                    @FormParam("time") String time,
+                                    @FormParam("place") String place ){
+        Connection conn = null;
+        Statement statement = null;
+        try {
+            Class.forName("org.postgresql.Driver");
+            conn = DriverManager.getConnection(url, user, password);
+            System.out.println("Connected to the PostgreSQL server to insert Experience.");
+            statement = conn.createStatement();
+            String sql = "INSERT INTO experience(companyName, position, time, place, applicantId, photoUrl) " +
+                    "VALUES ('"+companyName+"', '"+position+"', '"+time+"', '"+place+"', "+applicantId+", '"+companyPhoto+"')";
+            statement.executeUpdate(sql);
+            System.out.println("Experience added.");
+        } catch (SQLException | ClassNotFoundException e){
+            System.out.println(e.getMessage());
+        }
+        finally {
+            try {
+                if(statement != null)
+                    statement.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            try {
+                if(conn != null){
+                    conn.close();
+                    System.out.println("Close connection.");
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return Response
+                .status(Response.Status.OK)
+                .entity("Experience added.")
+                .build();
+    }
+
+    @Path("insertEducation/{applId}")
+    @POST
+    @Consumes({MediaType.MULTIPART_FORM_DATA})
+    @Produces({MediaType.TEXT_PLAIN})
+    public Response insertEducation(@PathParam("applId") int applicantId,
+                                     @FormParam("institutionName") String institutionName,
+                                     @FormParam("institutionPhoto") String institutionPhoto,
+                                     @FormParam("diploma") String diploma,
+                                     @FormParam("module") String module,
+                                     @FormParam("attendance") String attendance ){
+        Connection conn = null;
+        Statement statement = null;
+        try {
+            Class.forName("org.postgresql.Driver");
+            conn = DriverManager.getConnection(url, user, password);
+            System.out.println("Connected to the PostgreSQL server to insert Education.");
+            statement = conn.createStatement();
+            String sql = "INSERT INTO education(instName, photoUrl, diploma, modul, time, applicantId) " +
+                    "VALUES ('"+institutionName+"', '"+institutionPhoto+"', '"+diploma+"', '"+module+"', '"+attendance+"', "+applicantId+")";
+            statement.executeUpdate(sql);
+            System.out.println("Education added.");
+        } catch (SQLException | ClassNotFoundException e){
+            System.out.println(e.getMessage());
+        }
+        finally {
+            try {
+                if(statement != null)
+                    statement.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            try {
+                if(conn != null){
+                    conn.close();
+                    System.out.println("Close connection.");
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return Response
+                .status(Response.Status.OK)
+                .entity("Education added.")
+                .build();
+    }
+
 }/*End of class ApplicantService*/

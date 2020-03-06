@@ -46,17 +46,57 @@ class ExperienceForm extends React.Component {
 
     addNewExperience(event){
         event.preventDefault();
-        let exp = {
-            companyId: this.state.companyId,
-            companyName: this.state.companyName,
-            companyPhoto: this.state.companyPhoto,
-            position: this.state.position,
-            time: this.state.time,
-            place: this.state.place,
-        };
-        this.props.onAddNewExp(exp);
-        let newId = this.state.companyId + 1;
-        this.setState({companyId: newId});
+        let validInput = true;
+        if(!this.state.companyName)
+            validInput = false;
+        if(!this.state.companyPhoto)
+            validInput = false;
+        if(!this.state.position)
+            validInput = false;
+        if(!this.state.time)
+            validInput = false;
+        if(!this.state.place)
+            validInput = false;
+        if(validInput){
+            let exp = {
+                companyId: this.state.companyId,
+                companyName: this.state.companyName,
+                companyPhoto: this.state.companyPhoto,
+                position: this.state.position,
+                time: this.state.time,
+                place: this.state.place,
+            };
+            this.props.onAddNewExp(exp);
+            let newId = this.state.companyId + 1;
+            this.setState({companyId: newId});
+            let formData = new FormData();
+            formData.append('companyName', this.state.companyName);
+            formData.append('companyPhoto', this.state.companyPhoto);
+            formData.append('position', this.state.position);
+            formData.append('time', this.state.time);
+            formData.append('place', this.state.place);
+            let url = 'http://localhost:8080/applicant-tracking-systems-1.0-SNAPSHOT/applicants/insertExperience/' + this.props.applicantId;
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    'Origin' : 'http://localhost:3000',
+                },
+                body: formData,
+            })
+                .then((response) => {
+                    console.log('response', response); return response.text();
+                })
+                .then((text) => {
+                    console.log('text: ', text);
+                    alert('Experience added!');
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+        } else {
+            alert('Invalid input!');
+        }
     }
 
     render(){

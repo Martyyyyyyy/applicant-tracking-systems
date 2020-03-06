@@ -154,11 +154,11 @@ class EditForm extends React.Component{
     render(){
         let expForm;
         if(this.state.addExperienceForm){
-            expForm = <ExperienceForm onAddNewExp={this.onAddNewExperience} />;
+            expForm = <ExperienceForm onAddNewExp={this.onAddNewExperience} applicantId={this.props.id} />;
         }
         let eduForm;
         if(this.state.addEducationForm){
-            eduForm = <EducationForm onAddNewEdu={this.onAddNewEducation} />;
+            eduForm = <EducationForm onAddNewEdu={this.onAddNewEducation} applicantId={this.props.id} />;
         }
         return(
             <div className="editFormPopupCss">
