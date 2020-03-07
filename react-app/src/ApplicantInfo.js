@@ -29,10 +29,9 @@ class ApplicantInfo extends React.Component {
 			})
 			.then((text) => {
 				console.log('text: ', text);
+				this.props.onDelete(this.props.info.fullName);
 			})
 			.catch((e) => console.log(e));
-
-		this.props.onDelete(this.props.info.fullName);
 	}
 
 	editApplicant(){

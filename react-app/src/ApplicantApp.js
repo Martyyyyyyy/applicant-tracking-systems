@@ -87,10 +87,11 @@ class ApplicantApp extends React.Component{
 
     searchApplicants(input){
         sessionStorage.setItem('searchInput', input);
-        this.setState({showMoreInfo: false, classStyle: "firstDivStyle",searchingApplicants: true,});
+        this.setState({showMoreInfo: false, classStyle: "firstDivStyle",searchingApplicants: true, showEditForm: false});
         sessionStorage.setItem('showMoreInfo', 'false');
         sessionStorage.setItem('classStyle', 'firstDivStyle');
         sessionStorage.setItem('searchingApplicants', 'true');
+        sessionStorage.setItem('showEditForm', 'false');
         let url = 'http://localhost:8080/applicant-tracking-systems-1.0-SNAPSHOT/applicants/search/' + input;
         fetch(url, {
             method: 'GET',
@@ -114,6 +115,30 @@ class ApplicantApp extends React.Component{
     }
 
     handleDelete(name){
+        if(this.state.searchingApplicants){
+            let searchInputSess =  sessionStorage.getItem('searchInput');
+            this.searchApplicants(searchInputSess);
+        } else {
+            fetch('http://localhost:8080/applicant-tracking-systems-1.0-SNAPSHOT/applicants', {
+                method: 'GET',
+                mode: 'cors',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Origin' : 'http://localhost:3000',
+                }
+            })
+                .then((response) =>
+                {
+                    console.log('response', response); return response.json()
+                })
+                .then((json) =>
+                {
+                    console.log('json: ', json);
+                    this.setState({applicants: json});
+                })
+                .catch((e) => console.log(e)) ;
+        }
         alert("Applicant "+name+" deleted.");
     }
 

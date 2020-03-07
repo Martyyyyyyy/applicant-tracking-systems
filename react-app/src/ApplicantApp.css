@@ -24,6 +24,9 @@
     height: 620px;
     overflow-y: hidden;
 }
+.firstDivStyle:hover{
+    overflow-y: auto;
+}
 
 .secondDivStyle{
     border-style: outset;
@@ -35,4 +38,6 @@
     height: 620px;
     overflow-y: hidden;
 }
-
+.secondDivStyle:hover{
+    overflow-y: auto;
+}
