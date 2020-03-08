@@ -9,6 +9,7 @@ import javax.ws.rs.core.Response;
 @Path("/applicants")
 public class ApplicantService {
 
+    //Change with your database connection data (url, user, password).
     private final String url = "jdbc:postgresql://localhost/postgres";
     private final String user = "martina";
     private final String password = "martina";
@@ -68,6 +69,7 @@ public class ApplicantService {
                 .build();
     }
 
+    /*Search trough  applicants and return applicants that satisfy the search criteria.*/
     @Path("search/{value}")
     @GET
     @Produces({MediaType.APPLICATION_JSON})
@@ -334,6 +336,7 @@ public class ApplicantService {
                 .build();
     }
 
+    /*Update applicants personal information.*/
     @Path("update/{applId}")
     @POST
     @Consumes({MediaType.MULTIPART_FORM_DATA})
@@ -383,6 +386,7 @@ public class ApplicantService {
                 .build();
     }
 
+    /*Insert new experience. */
     @Path("insertExperience/{applId}")
     @POST
     @Consumes({MediaType.MULTIPART_FORM_DATA})
@@ -429,6 +433,7 @@ public class ApplicantService {
                 .build();
     }
 
+    /*Insert new education. */
     @Path("insertEducation/{applId}")
     @POST
     @Consumes({MediaType.MULTIPART_FORM_DATA})

@@ -4,7 +4,7 @@ import EducationForm from "./EducationForm";
 import {IoIosCloseCircle} from 'react-icons/io';
 import {MdUpdate} from 'react-icons/md';
 import {MdAddCircle} from 'react-icons/md';
-import './EditForm.css';
+import './style/EditForm.css';
 
 
 class EditForm extends React.Component{

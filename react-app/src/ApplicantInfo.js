@@ -1,8 +1,12 @@
 import React from 'react';
-import './ApplicantInfo.css';
+import './style/ApplicantInfo.css';
 import {MdDelete} from 'react-icons/md';
 import {FaUserEdit} from 'react-icons/fa';
 
+/*This component shows personal data about applicant.
+* It is possible to delete applicant and edit pressing buttons delete and edit.
+* If you click on applicant from main view it will open new view with more data
+* about selected applicant.*/
 
 class ApplicantInfo extends React.Component {
 
@@ -13,7 +17,9 @@ class ApplicantInfo extends React.Component {
 		this.handleClickOnApplicant = this.handleClickOnApplicant.bind(this);
 	}
 
-	/*Delete selected applicant. */
+	/*Delete selected applicant. Take applicantId from props (send by ApplicantApp component)
+	* and send request to server to delete applicant with id sent in url. When server return response
+	* call function handleDelete() from ApplicantApp component to refresh applicant state.*/
 	deleteApplicant(){
 		let url = 'http://localhost:8080/applicant-tracking-systems-1.0-SNAPSHOT/applicants/deleteApplicant/' + this.props.info.applicantId;
 		fetch(url, {
@@ -34,19 +40,18 @@ class ApplicantInfo extends React.Component {
 			.catch((e) => console.log(e));
 	}
 
+	/*On click on edit button call handleEdit() function from ApplicantApp component,
+	* (sent by props to ApplicantInfo component) and send applicantId to that function.*/
 	editApplicant(){
 		this.props.onEdit(this.props.info.applicantId);
 	}
 
-	/*Lifting state up, with this function we can send chosen applicant id
-	* from ApplicantInfo to ApplicantApp (from child class to parent class)*/
-	handleClickOnApplicant(e){
+	/*On Click on applicant call handleMoreInfo() from ApplicantApp component,
+	* (sent by props to ApplicantInfo component) and send applicantId to that function.*/
+	handleClickOnApplicant(){
 		this.props.onMoreInfoChange(this.props.info.applicantId);
 	}
 
-	/*Click on applicant opens more info of chosen applicant (Education, Experience, Chat)
-	* Delete button delete applicant from base,
-	* Edit Button opens edit pop-up.*/
 	render(){
 		return(
 			<section>
@@ -72,3 +77,5 @@ class ApplicantInfo extends React.Component {
 
 export default ApplicantInfo;
 
+/* => Go to ExpEduInfo.js */
+/* => Go to ChatInfo.js */

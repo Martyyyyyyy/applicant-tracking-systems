@@ -1,5 +1,6 @@
 import React from 'react';
-import './ExpEduInfo.css';
+import './style/ExpEduInfo.css';
+import eduPhoto from './png/education.png';
 
 class ExpEduInfo extends React.Component{
 
@@ -25,7 +26,7 @@ class ExpEduInfo extends React.Component{
 				    	{this.props.education.map(e =>
 				    	 	<section className="sectionCss" key={e.educationId}>
 				    	 	<div className="imgDiv">
-				    	 		<img  className="compImg" src={e.institutionPhotoURL} alt="Institution"/>
+				    	 		<img  className="compImg" src={eduPhoto} alt="Institution"/>
 				    	 	</div>
 				    	 	<div className="eduInfoDiv">
 					    	 	<p className="textCss2">{e.institutionName}</p>

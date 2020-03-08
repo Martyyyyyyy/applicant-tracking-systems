@@ -1,11 +1,42 @@
-# Apache TomEE JAX-RS React Project
+# Simple Applicant Tracking Systems Application
 
+Technologies used in project:
+ - React
+ - Apache TomEE JAX-RS
+ - PostgreSQL database
 
-This project contains:
+# About application
 
- - 1 JAX-RS class ...
- - Maven pom for building a war file
- - Arquillian setup for testing against TomEE JAX-RS Embedded
- - TomEE Maven Plugin for deploying and running our war file
+Simple application used for applicant’s management. This application consists of 2 main views. When you first open application,
+you see list of applicants with some personal data: applicants photo, first name and last name, place of employment and address.
+Search through list of applicants is possible by inputting some text in search box and pressing enter, free text search. Search
+is case insensitive and applies to all personal data of applicant (first name, last name, address and place of employment).
+By clicking on one of listed applicants, second view appears. This view contains original list of applicants, same as in first
+view, followed by experience and education data for clicked applicant and chat. Chat contains messages that are exchanged between
+applicant and admin user. If you perform search for applicants from this view, you are returned to main (first) view again,
+displaying list of applicants that satisfy search criteria. Returning to main view is also possible by clicking on DCCS logo,
+in which case list contains all applicants. Another important aspect of applications is routing. If you do refresh of application
+after you clicked some applicant, you still get to see same view. Besides personal data in applicants list, you have option to
+delete or edit applicant. Click on delete button delete selected applicant from the list, click on edit button opens edit pop-up.
+Edit pop-up contains three parts: first for editing personal data about applicant, second for adding new experiences, and third
+part for adding new education to applicant.
 
-Everything ready-to-run with a 'mvn clean install tomee:run' and 'npm start' in react-app directory
+# How to run?
+
+Download or clone project from my git repository, import as maven project into your working environment, set-up postgeSQL database.
+Details about database set-up are in posgreSQL directory. Once you set-up your database you are ready to run app with command:
+'mvn clean install tomee:run' from root application folder (~/applicant-tracking-systems) and then run: 'npm start' from react-app
+directory (~/applicant-tracking-systems/react-app), application will open in your web browser on address: 'http://localhost:3000/'.
+
+# Code architecture
+
+Server serves client with data from database (read, insert, update, delete). Server is implemented in JAX-RS (Java API for RESTful Web Services),
+client is implemented in React and database is PostgreSQL. Client send request to server, server connects to database and depends on request
+method (GET, POST, DELETE) execute corresponding sql statement. Server return response to client with corresponding data, client then present
+data to user and that is most simplified explanation on how this architecture works.
+Code of server implementation is in src/main/java folder, package org.superbiz. It consist of Applicant, Education, Experience, Message, CorsFilter
+and ApplicantService java classes. Main functionality of the server is contained in class ApplicantService, more details of how it works you can read
+from code comments. Client implementation is in React and is contained in react-app/src directory. Inside src directory there are two folders:
+png (contains photos of admin, DCCS logo and education), style (contains css files for each JS file), and JS files written in React (ApplicantApp,
+ApplicantInfo, ChatInfo, EditForm, EducationForm, ExpEduInfo, ExperienceForm, SearchBar and index). If you want to understand code architecture
+more deeply you should start reading code comments from index.js, follow comment leads and read the rest of comments in others JS file.

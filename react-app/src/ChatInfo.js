@@ -1,5 +1,5 @@
 import React from 'react';
-import './ChatInfo.css';
+import './style/ChatInfo.css';
 import {IoMdRadioButtonOff} from "react-icons/io";
 import adminPhoto from './png/admin.png';
 

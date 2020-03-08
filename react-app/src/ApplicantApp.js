@@ -4,8 +4,10 @@ import ChatInfo from "./ChatInfo";
 import EditForm from "./EditForm";
 import SearchBar from "./SearchBar";
 import ApplicantInfo from "./ApplicantInfo";
-import './ApplicantApp.css';
+import './style/ApplicantApp.css';
 
+/*This is the main component of application, controls visibility of other components
+* (ChatInfo, ExpEduInfo, EditForm) and renders them together with SearchBar and ApplicantInfo component.*/
 class ApplicantApp extends React.Component{
     constructor(props){
         super(props);
@@ -27,6 +29,10 @@ class ApplicantApp extends React.Component{
         this.closeForm = this.closeForm.bind(this);
     }
 
+    /*Take applicantId from ApplicantInfo and send GET request to server for more information
+    * about selected applicant. Save response data into applicantMoreInfo object state and set
+    * visibility on for ExpEduInfo component, change view from main to second.
+    * Save states into sessionStorage in case of reload page. */
     handleMoreInfo(id){
         let url = 'http://localhost:8080/applicant-tracking-systems-1.0-SNAPSHOT/applicants/moreInfo/' + id;
         fetch(url, {
@@ -55,6 +61,11 @@ class ApplicantApp extends React.Component{
         sessionStorage.setItem('chosenApplicantId', id);
     }
 
+    /*Return to main view on DCCS logo click, if we were in search mode
+    * before that it is necessary to load all applicant from base again
+    * (send GET request to server to return all applicants from base and set
+    * applicants array state ).
+    * Save states into sessionStorage in case of reload page.*/
     handleBackToHome(){
         this.setState({showMoreInfo: false, classStyle: "firstDivStyle",showEditForm: false});
         sessionStorage.setItem('showMoreInfo', 'false');
@@ -85,6 +96,10 @@ class ApplicantApp extends React.Component{
         }
     }
 
+    /*Return to main view and save states into sessionStorage in case of reload page.
+    * Take input value from SearchBar and send GET request to server to
+    * search trough applicants, server returns applicants that satisfy the search criteria,
+    * set applicants state. */
     searchApplicants(input){
         sessionStorage.setItem('searchInput', input);
         this.setState({showMoreInfo: false, classStyle: "firstDivStyle",searchingApplicants: true, showEditForm: false});
@@ -114,6 +129,8 @@ class ApplicantApp extends React.Component{
             .catch((e) => console.log(e)) ;
     }
 
+    /*After delete applicant (in ApplicantInfo.js) load applicants from base
+    * to refresh view, load depends on view mode before delete. */
     handleDelete(name){
         if(this.state.searchingApplicants){
             let searchInputSess =  sessionStorage.getItem('searchInput');
@@ -142,19 +159,25 @@ class ApplicantApp extends React.Component{
         alert("Applicant "+name+" deleted.");
     }
 
+    /*After click on edit button, take applicantId from ApplicantInfo and open edit form
+    *(set visibility on true). Save states into sessionStorage in case of reload page. */
     handleEdit(id){
         this.setState({showEditForm: true, applicantIdToEdit: id});
         sessionStorage.setItem('showEditForm', 'true');
         sessionStorage.setItem('applicantIdToEdit', id);
     }
 
-    /*Send as props to EditForm, on button click Close,
-	* from EditForm close edit form */
+    /*After click on close button from EditForm close edit form,
+    * set visibility on false. Save states into sessionStorage in case of reload page.*/
     closeForm(){
         this.setState({showEditForm: false});
         sessionStorage.setItem('showEditForm', 'false');
     }
 
+    /*Invoked immediately after ApplicantApp component is mounted. Load states from
+    * sessionStorage and set states in case reload page happened. Depending on previous state,
+    * before reload call functions and send request to server. If componentDidMount happens for the
+    * firs time set view on main view and load all applicants from base. */
     componentDidMount() {
         let searchInputSess =  sessionStorage.getItem('searchInput');
         let showMoreInfoSess = sessionStorage.getItem('showMoreInfo') === 'true';
@@ -199,12 +222,11 @@ class ApplicantApp extends React.Component{
 
     }
 
-
-
-    /*If Applicant is chosen show more info about that applicant (Experience, Education, Chat with admin).
-	* Map thru array of Applicants (applicants) and for each applicant show
-	* Applicants basic info (Name, Photo, Place of Employment, Address).
-	* If showEditForm have true value open edit pop-up and edit applicant info.*/
+    /*Main render, render other components depending on state.
+    * Map through array of Applicants (applicants) and for each applicant show
+    * applicants basic info (name, photo, place of employment, address).
+    * If applicant is chosen show more info about that applicant (experience, education and chat with admin).
+    * If showEditForm is set on true, open edit pop-up and edit applicant info.*/
     render(){
         let expEduInfo = null;
         let chatInfo = null;
@@ -239,7 +261,10 @@ class ApplicantApp extends React.Component{
             </div>
         );
     }
-
 }
 
 export default ApplicantApp;
+
+/* => Go to SearchBar.js */
+/* => Go to ApplicantInfo.js */
+/* => Go to EditForm.js */

@@ -1,6 +1,14 @@
+
+Details for my postgeSQL database, connection data:
+
 ----------------------------------------------
 database name: postgres
 url: jdbc:postgresql://localhost:5432/postgres
 user: martina
 password: martina
 ----------------------------------------------
+
+If you change  data import your url, user and password data into ApplicantService.java class instead of mine.
+(Line: 12, 13, 14)
+
+Execute sql file - executeSQL.sql to create tables and fill them up with some data.

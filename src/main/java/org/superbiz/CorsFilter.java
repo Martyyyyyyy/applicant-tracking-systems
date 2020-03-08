@@ -6,6 +6,9 @@ import javax.ws.rs.container.ContainerResponseFilter;
 import javax.ws.rs.ext.Provider;
 import java.io.IOException;
 
+/*Solution to the cors-origin problem. Using Java CORS filter, you are allowing the webpage
+* to make requests from other domain in this case 'http://localhost:3000' domain.*/
+
 @Provider
 public class CorsFilter implements ContainerResponseFilter {
 

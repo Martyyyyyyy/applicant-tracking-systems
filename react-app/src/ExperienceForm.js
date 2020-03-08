@@ -1,6 +1,6 @@
 import React from "react";
 import {MdAddCircle} from 'react-icons/md';
-import './EditForm.css';
+import './style/EditForm.css';
 
 class ExperienceForm extends React.Component {
     constructor(props) {

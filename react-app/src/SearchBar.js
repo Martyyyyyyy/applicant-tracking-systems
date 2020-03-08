@@ -1,7 +1,11 @@
 import React from "react";
-import './SearchBar.css';
+import './style/SearchBar.css';
 import logo from './png/dccs.png';
 import {FiSearch} from 'react-icons/fi';
+
+/*Represents search bar in application. You can search trough applicants by entering
+* some text in search box(first name, last name, address, place of employment) end pressing enter.
+* Click on DCCS logo returns you to the first (main) view.*/
 
 class SearchBar extends React.Component {
     constructor(props){
@@ -14,17 +18,21 @@ class SearchBar extends React.Component {
         this.backToHomeAndClearInput = this.backToHomeAndClearInput.bind(this);
     }
 
-    /*Send value from search input to ApplicantApp on Enter key down*/
+    /*Send value from search input to searchApplicants() function (from ApplicantApp component),
+     on Enter key down.*/
     searchOnEnter(event){
         if(event.key === 'Enter'){
             this.props.onEnterSearch(this.state.inputValue);
         }
     }
 
+    /*On input change set state inputValue on new value.*/
     handleChange(event){
         this.setState({inputValue: event.target.value});
     }
 
+    /*On click on DCCS logo clear search input and call function handleBackToHome() from ApplicantApp
+    * to return on application main view.*/
     backToHomeAndClearInput(){
         this.setState({inputValue: ''});
         this.props.onLogoClick();
