@@ -1,9 +1,6 @@
 # Simple Applicant Tracking Systems Application
 
-Technologies used in project:
- - React
- - Apache TomEE JAX-RS
- - PostgreSQL database
+Technologies used in project: React, Apache TomEE JAX-RS, PostgreSQL database.
 
 # About application
 
