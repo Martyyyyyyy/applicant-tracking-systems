@@ -5,6 +5,8 @@ import adminPhoto from './png/admin.png';
 
 class ChatInfo extends React.Component{
 
+	/*Maps trough messages array sent as props from ApplicantApp component,
+	* showing chat between selected applicant and admin.*/
 	render(){
 		return(
 			<div className="chatDiv">

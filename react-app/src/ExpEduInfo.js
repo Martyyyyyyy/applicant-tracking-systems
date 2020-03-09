@@ -4,6 +4,10 @@ import eduPhoto from './png/education.png';
 
 class ExpEduInfo extends React.Component{
 
+	/*Maps trough experience array and education array sent as props from ApplicantApp component.
+	* Showing education (institution name, photo, diploma, attendance time, module) and
+	* experience (company name, photo, working position, time of employment, place of employment)
+	* information about selected applicant. */
 	render(){
 		return(			
 				<div className="moreInfoDiv">

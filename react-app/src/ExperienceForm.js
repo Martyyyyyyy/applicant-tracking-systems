@@ -2,6 +2,7 @@ import React from "react";
 import {MdAddCircle} from 'react-icons/md';
 import './style/EditForm.css';
 
+/*Form with inputs for adding new Experience.*/
 class ExperienceForm extends React.Component {
     constructor(props) {
         super(props);
@@ -21,15 +22,14 @@ class ExperienceForm extends React.Component {
         this.addNewExperience = this.addNewExperience.bind(this);
     }
 
+    /*Handlers for experience information inputs, on change set state with new value.*/
     handleChangeCompanyName(event){
         event.preventDefault();
         this.setState({companyName: event.target.value});
-
     }
     handleChangeCompanyPhoto(event){
         event.preventDefault();
         this.setState({companyPhoto: event.target.value});
-
     }
     handleChangePosition(event){
         event.preventDefault();
@@ -44,6 +44,10 @@ class ExperienceForm extends React.Component {
         this.setState({place: event.target.value});
     }
 
+    /*On click +Add button check if inputs are valid and then create object with
+    * experience information and send it to the function onAddNewExperience() from EditForm component.
+    * Create FromData object, insert values from experience information inputs into formData object,
+    *  send POST request to server with dataForm object and applicantId.*/
     addNewExperience(event){
         event.preventDefault();
         let validInput = true;

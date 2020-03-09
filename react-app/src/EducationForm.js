@@ -2,7 +2,9 @@ import React from "react";
 import {MdAddCircle} from 'react-icons/md';
 import './style/EditForm.css';
 
+/*Form with inputs for adding new Education.*/
 class  EducationForm extends React.Component{
+
     constructor(props){
         super(props);
         this.state = {
@@ -21,6 +23,7 @@ class  EducationForm extends React.Component{
         this.addNewEducation = this.addNewEducation.bind(this);
     }
 
+    /*Handlers for education information inputs, on change set state with new value.*/
     handleChangeInstitutionName(event){
         event.preventDefault();
         this.setState({institutionName: event.target.value});
@@ -41,6 +44,11 @@ class  EducationForm extends React.Component{
         event.preventDefault();
         this.setState({attendance: event.target.value});
     }
+
+    /*On click +Add button check if inputs are valid and then create object with
+    * education information and send it to the function onAddNewEducation() from EditForm component.
+    * Create FromData object, insert values from education information inputs into formData object,
+    *  send POST request to server with dataForm object and applicantId.*/
     addNewEducation(event){
         event.preventDefault();
         let validInput = true;

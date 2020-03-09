@@ -6,7 +6,11 @@ import {MdUpdate} from 'react-icons/md';
 import {MdAddCircle} from 'react-icons/md';
 import './style/EditForm.css';
 
-
+/*Main component of edit form. Edit form opens on edit button from ApplicantInfo component.
+* Edit form consists of three part (edit personal information, add new experience, add new education).
+* Click on button +Experience opens form with inputs for adding new experience.
+* Click on button +Education opens form with inputs for adding new education.
+* click on +Add buttons adds new experience and education to applicant. */
 class EditForm extends React.Component{
     constructor(props){
         super(props);
@@ -39,6 +43,8 @@ class EditForm extends React.Component{
         this.onAddNewEducation = this.onAddNewEducation.bind(this);
     }
 
+    /*Check if inputs are valid and then create FromData object, insert values from personal information
+    * inputs into formData object, send POST request to server with dataForm object and applicantId. */
     updateApplicant(event){
         event.preventDefault();
         let validInput = true;
@@ -76,10 +82,10 @@ class EditForm extends React.Component{
                 });
         } else {
             alert('Check your input values to update personal information!');
-            console.log('Check your input values to update personal information!');
         }
     }
 
+    /*Handlers for personal information inputs, on change set state with new value.*/
     handleChangeFirstName(event){
         this.setState({firstName: event.target.value});
     }
@@ -95,30 +101,44 @@ class EditForm extends React.Component{
     handleChangeAddress(event){
         this.setState({address: event.target.value});
     }
+
+    /*Click on +Experience button, opens form for adding new experience.
+    * Set visibility for ExperienceForm component on true.*/
     addExperience(event){
         event.preventDefault();
         this.setState({addExperienceForm: true});
-
     }
+    /*Click on X button close form for adding new experience.
+    * Set visibility for ExperienceForm component on false.*/
     closeAddExperience(event){
         event.preventDefault();
         this.setState({addExperienceForm: false});
     }
+    /*Click on +Education button, opens form for adding new education.
+    * Set visibility for EducationForm component on true.*/
     addEducation(event){
         event.preventDefault();
         this.setState({addEducationForm: true});
     }
+    /*Click on X button close form for adding new education.
+    * Set visibility for EducationForm component on false.*/
     closeAddEducation(event){
         event.preventDefault();
         this.setState({addEducationForm: false});
     }
+    /*Adds object with new experience information (sent from ExperienceForm component )
+    * into newExperience array. */
     onAddNewExperience(exp){
         this.setState({newExperience: (this.state.newExperience).concat(exp)});
     }
+    /*Adds object with new education information (sent from EducationForm component)
+    * into newEducation array.*/
     onAddNewEducation(edu){
         this.setState({newEducation: (this.state.newEducation).concat(edu)});
     }
 
+    /*Send GET request to server for all information about selected applicant.
+    * Fill up form with received data.*/
     componentDidMount() {
         let url = 'http://localhost:8080/applicant-tracking-systems-1.0-SNAPSHOT/applicants/edit/' + this.props.id;
         fetch(url, {
@@ -151,6 +171,11 @@ class EditForm extends React.Component{
             .catch((e) => console.log(e));
     }
 
+    /*Render personal information form.
+    * Map trough experience array and newExperience array and show data about applicant experiences.
+    * Show ExperienceForm if addExperienceForm state is set on true.
+    * Map trough education array and newEducation array and show data about applicant educations.
+    * Show EducationForm if addEducationForm state is set on true.*/
     render(){
         let expForm;
         if(this.state.addExperienceForm){
@@ -263,3 +288,6 @@ class EditForm extends React.Component{
 }
 
 export default EditForm;
+
+/* => Go to EducationForm.js */
+/* => Go to ExperienceForm.js */
