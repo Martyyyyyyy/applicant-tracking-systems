@@ -93,7 +93,7 @@ class ExperienceForm extends React.Component {
                 })
                 .then((text) => {
                     console.log('text: ', text);
-                    alert('Experience added!');
+                    //alert('Experience added!');
                 })
                 .catch((error) => {
                     console.error('Error:', error);

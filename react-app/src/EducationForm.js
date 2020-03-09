@@ -28,6 +28,7 @@ class  EducationForm extends React.Component{
         event.preventDefault();
         this.setState({institutionName: event.target.value});
     }
+
     handleChangeInstitutionPhoto(event){
         event.preventDefault();
         this.setState({institutionPhoto: event.target.value});
@@ -53,8 +54,6 @@ class  EducationForm extends React.Component{
         event.preventDefault();
         let validInput = true;
         if(!this.state.institutionName)
-            validInput = false;
-        if(!this.state.institutionPhoto)
             validInput = false;
         if(!this.state.diploma)
             validInput = false;
@@ -94,7 +93,7 @@ class  EducationForm extends React.Component{
                 })
                 .then((text) => {
                     console.log('text: ', text);
-                    alert('Education added!');
+                    //alert('Education added!');
                 })
                 .catch((error) => {
                     console.error('Error:', error);
@@ -111,12 +110,6 @@ class  EducationForm extends React.Component{
                     <label className="col-sm-2 col-form-label">Institution Name:</label>
                     <div className="col-sm-10">
                         <input type="text" onChange={this.handleChangeInstitutionName} className="form-control" placeholder="Institution Name"/>
-                    </div>
-                </div>
-                <div className="form-group row">
-                    <label className="col-sm-2 col-form-label">Institution Photo URL:</label>
-                    <div className="col-sm-10">
-                        <input type="text" onChange={this.handleChangeInstitutionPhoto} className="form-control" placeholder="Institution Photo URL"/>
                     </div>
                 </div>
                 <div className="form-group row">

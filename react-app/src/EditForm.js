@@ -4,6 +4,7 @@ import EducationForm from "./EducationForm";
 import {IoIosCloseCircle} from 'react-icons/io';
 import {MdUpdate} from 'react-icons/md';
 import {MdAddCircle} from 'react-icons/md';
+import eduPhoto from './png/education.png';
 import './style/EditForm.css';
 
 /*Main component of edit form. Edit form opens on edit button from ApplicantInfo component.
@@ -75,7 +76,7 @@ class EditForm extends React.Component{
                 })
                 .then((text) => {
                     console.log('text: ', text);
-                    alert('Applicant updated!');
+                    this.props.onUpdate();
                 })
                 .catch((error) => {
                     console.error('Error:', error);
@@ -252,7 +253,7 @@ class EditForm extends React.Component{
                         {this.state.education.map(e =>
                             <section className="editSectionComp" key={e.educationId}>
                                 <div className="editDivComPhoto">
-                                    <img className="editCompPhoto"  src={e.institutionPhotoURL} alt="institution"/>
+                                    <img className="editCompPhoto"  src={eduPhoto} alt="institution"/>
                                 </div>
                                 <div className="editDivCompInfo">
                                     <p>{e.diploma} - {e.modul}</p>
@@ -262,7 +263,7 @@ class EditForm extends React.Component{
                         {this.state.newEducation && this.state.newEducation.map(e =>
                             <section className="editSectionComp" key={e.institutionId}>
                                 <div className="editDivComPhoto">
-                                    <img className="editCompPhoto"  src={e.institutionPhoto} alt="institution"/>
+                                    <img className="editCompPhoto"  src={eduPhoto} alt="institution"/>
                                 </div>
                                 <div className="editDivCompInfo">
                                     <p>{e.module}</p>

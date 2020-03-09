@@ -26,6 +26,7 @@ class ApplicantApp extends React.Component{
         this.searchApplicants = this.searchApplicants.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
         this.handleEdit = this.handleEdit.bind(this);
+        this.handleUpdate = this.handleUpdate.bind(this);
         this.closeForm = this.closeForm.bind(this);
     }
 
@@ -156,7 +157,16 @@ class ApplicantApp extends React.Component{
                 })
                 .catch((e) => console.log(e)) ;
         }
-        alert("Applicant "+name+" deleted.");
+        if(this.showMoreInfo){
+            this.setState({showMoreInfo: false, classStyle: "firstDivStyle"});
+            sessionStorage.setItem('showMoreInfo', 'false');
+            sessionStorage.setItem('classStyle', 'firstDivStyle');
+        }
+        if(this.showEditForm){
+            this.setState({showEditForm: false});
+            sessionStorage.setItem('showEditForm', 'false');
+        }
+        //alert("Applicant "+name+" deleted.");
     }
 
     /*After click on edit button, take applicantId from ApplicantInfo and open edit form
@@ -165,6 +175,39 @@ class ApplicantApp extends React.Component{
         this.setState({showEditForm: true, applicantIdToEdit: id});
         sessionStorage.setItem('showEditForm', 'true');
         sessionStorage.setItem('applicantIdToEdit', id);
+    }
+
+    /*After update applicant (in EditForm.js) load applicants from base
+    * to refresh view, load depends on view mode before update. */
+    handleUpdate(){
+        this.closeForm();
+        this.setState({showMoreInfo: false, classStyle: "firstDivStyle"});
+        sessionStorage.setItem('showMoreInfo', 'false');
+        sessionStorage.setItem('classStyle', 'firstDivStyle');
+        if(this.state.searchingApplicants){
+            let searchInputSess =  sessionStorage.getItem('searchInput');
+            this.searchApplicants(searchInputSess);
+        } else {
+            fetch('http://localhost:8080/applicant-tracking-systems-1.0-SNAPSHOT/applicants', {
+                method: 'GET',
+                mode: 'cors',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Origin' : 'http://localhost:3000',
+                }
+            })
+                .then((response) =>
+                {
+                    console.log('response', response); return response.json()
+                })
+                .then((json) =>
+                {
+                    console.log('json: ', json);
+                    this.setState({applicants: json});
+                })
+                .catch((e) => console.log(e)) ;
+        }
     }
 
     /*After click on close button from EditForm close edit form,
@@ -214,12 +257,10 @@ class ApplicantApp extends React.Component{
                 })
                 .catch((e) => console.log(e)) ;
         }
-
         if(showMoreInfoSess)
             this.handleMoreInfo(chosenApplicantIdSess);
         if(showEditFormSess)
             this.handleEdit(applicantIdToEditSess);
-
     }
 
     /*Main render, render other components depending on state.
@@ -237,7 +278,7 @@ class ApplicantApp extends React.Component{
                                  applName={this.state.applicantMoreInfo.fullName} applPhoto={this.state.applicantMoreInfo.applicantPhotoURL}/>;
         }
         if(this.state.showEditForm){
-            editForm = <EditForm onCloseForm={this.closeForm} id={this.state.applicantIdToEdit}/>;
+            editForm = <EditForm onCloseForm={this.closeForm} id={this.state.applicantIdToEdit} onUpdate={this.handleUpdate}/>;
         }
         return(
             <div>
